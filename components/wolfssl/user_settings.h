@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 /* #define NO_MAIN_DRIVER */
+=======
+#define NO_MAIN_DRIVER
+>>>>>>> add wolfSSL files
 #define BENCH_EMBEDDED
 #define NO_WRITEV
 #define WOLFSSL_USER_IO
@@ -8,6 +12,7 @@
 #define WOLFSSL_USER_CURRTIME
 #define SIZEOF_LONG_LONG 8
 #define NO_WOLFSSL_DIR 
+<<<<<<< HEAD
 #define WOLFSSL_NO_CURRDIR 
 
 /* TLS 1.3 */
@@ -20,6 +25,11 @@
 #define HAVE_SUPPORTED_CURVES
 
 // #define WOLFSSL_USER_CURRTIME /* for benchmark */
+=======
+#define WOLFSSL_NO_CURRDIR
+
+#define WOLFSSL_USER_CURRTIME /* for benchmark */
+>>>>>>> add wolfSSL files
 #define NO_ASN_TIME
 #define XTIME time
 #define WOLFSSL_GENSEED_FORTEST /* Wardning: define your own seed gen */
@@ -28,11 +38,17 @@
 #define ECC_TIMING_RESISTANT
 #define WC_RSA_BLINDING
 
+<<<<<<< HEAD
 #define SINGLE_THREADED /* or define RTOS  option */
 /* #define WOLFSSL_CMSIS_RTOS */
 #define NO_FILESYSTEM 
 /* #define TEST_LOAD_BUFFER */
 /* #define FORCE_BUFFER_TEST */
+=======
+#define SINGLE_THREADED  /* or define RTOS  option */
+/* #define WOLFSSL_CMSIS_RTOS */
+#define NO_FILESYSTEM
+>>>>>>> add wolfSSL files
 
 /* #define NO_DH */
 #define HAVE_AESGCM
@@ -40,8 +56,12 @@
 #define HAVE_ECC
 #define HAVE_CURVE25519
 #define CURVE25519_SMALL
+<<<<<<< HEAD
 #define HAVE_ED25519
 
 #define DEBUG_WOLFSSL
 #define WOLFSSL_LOG_PRINTF
 #define WOLFSSL_ESPIDF
+=======
+#define HAVE_ED25519
+>>>>>>> add wolfSSL files

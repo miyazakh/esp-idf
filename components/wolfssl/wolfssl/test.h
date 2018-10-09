@@ -100,9 +100,13 @@
     #include <unistd.h>
     #include <netdb.h>
     #include <netinet/in.h>
+<<<<<<< HEAD
 #ifndef WOLFSSL_ESPIDF
     #include <netinet/tcp.h>
 #endif
+=======
+    #include <netinet/tcp.h>
+>>>>>>> add wolfSSL files
     #include <arpa/inet.h>
     #include <sys/ioctl.h>
     #include <sys/time.h>
@@ -378,8 +382,12 @@ void join_thread(THREAD_TYPE);
 
 /* wolfSSL */
 #ifndef TEST_IPV6
+<<<<<<< HEAD
 /* !!!!!temporary!!!!!! */
     static const char* const wolfSSLIP   = "172.20.10.5";/*"127.0.0.1";*/
+=======
+    static const char* const wolfSSLIP   = "127.0.0.1";
+>>>>>>> add wolfSSL files
 #else
     static const char* const wolfSSLIP   = "::1";
 #endif
@@ -800,8 +808,12 @@ static WC_INLINE void tcp_socket(SOCKET_T* sockfd, int udp, int sctp)
             err_sys("setsockopt SO_NOSIGPIPE failed\n");
     }
 #elif defined(WOLFSSL_MDK_ARM) || defined (WOLFSSL_TIRTOS) ||\
+<<<<<<< HEAD
                                           defined(WOLFSSL_KEIL_TCP_NET) || \
                                           defined(WOLFSSL_ESPIDF)
+=======
+                                          defined(WOLFSSL_KEIL_TCP_NET)
+>>>>>>> add wolfSSL files
     /* nothing to define */
 #else  /* no S_NOSIGPIPE */
     signal(SIGPIPE, SIG_IGN);
@@ -905,8 +917,12 @@ static WC_INLINE void tcp_listen(SOCKET_T* sockfd, word16* port, int useAnyAddr,
     tcp_socket(sockfd, udp, sctp);
 
 #if !defined(USE_WINDOWS_API) && !defined(WOLFSSL_MDK_ARM)\
+<<<<<<< HEAD
                               && !defined(WOLFSSL_KEIL_TCP_NET)\
                               && !defined(WOLFSSL_ESPIDF)
+=======
+                              && !defined(WOLFSSL_KEIL_TCP_NET)
+>>>>>>> add wolfSSL files
     {
         int       res, on  = 1;
         socklen_t len = sizeof(on);
