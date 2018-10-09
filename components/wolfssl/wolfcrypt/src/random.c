@@ -2154,10 +2154,14 @@ int wc_GenerateSeed(OS_Seed* os, byte* output, word32 sz)
 #ifdef USE_TEST_GENSEED
     #ifndef _MSC_VER
 <<<<<<< HEAD
+<<<<<<< HEAD
 //        #warning "write a real random seed!!!!, just for testing now"
 =======
         #warning "write a real random seed!!!!, just for testing now"
 >>>>>>> add wolfSSL files
+=======
+//        #warning "write a real random seed!!!!, just for testing now"
+>>>>>>> stop gups for warnings
     #else
         #pragma message("Warning: write a real random seed!!!!, just for testing now")
     #endif

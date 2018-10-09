@@ -1397,10 +1397,14 @@ static int wc_RsaFunctionSync(const byte* in, word32 inLen, byte* out,
 #endif
     int    ret = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     word32 keyLen = 0; word32 len;
 =======
     word32 keyLen, len;
 >>>>>>> add wolfSSL files
+=======
+    word32 keyLen = 0; word32 len;
+>>>>>>> stop gups for warnings
 #endif
 
 #ifdef WOLFSSL_HAVE_SP_RSA
