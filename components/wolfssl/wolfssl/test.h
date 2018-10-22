@@ -101,12 +101,18 @@
     #include <netdb.h>
     #include <netinet/in.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifndef WOLFSSL_ESPIDF
     #include <netinet/tcp.h>
 #endif
 =======
     #include <netinet/tcp.h>
 >>>>>>> add wolfSSL files
+=======
+#ifndef WOLFSSL_ESPIDF
+    #include <netinet/tcp.h>
+#endif
+>>>>>>> Added wolfssl example server
     #include <arpa/inet.h>
     #include <sys/ioctl.h>
     #include <sys/time.h>
@@ -383,11 +389,16 @@ void join_thread(THREAD_TYPE);
 /* wolfSSL */
 #ifndef TEST_IPV6
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* !!!!!temporary!!!!!! */
     static const char* const wolfSSLIP   = "172.20.10.5";/*"127.0.0.1";*/
 =======
     static const char* const wolfSSLIP   = "127.0.0.1";
 >>>>>>> add wolfSSL files
+=======
+/* !!!!!temporary!!!!!! */
+    static const char* const wolfSSLIP   = "172.20.10.5";/*"127.0.0.1";*/
+>>>>>>> Added wolfssl example server
 #else
     static const char* const wolfSSLIP   = "::1";
 #endif
@@ -809,11 +820,16 @@ static WC_INLINE void tcp_socket(SOCKET_T* sockfd, int udp, int sctp)
     }
 #elif defined(WOLFSSL_MDK_ARM) || defined (WOLFSSL_TIRTOS) ||\
 <<<<<<< HEAD
+<<<<<<< HEAD
                                           defined(WOLFSSL_KEIL_TCP_NET) || \
                                           defined(WOLFSSL_ESPIDF)
 =======
                                           defined(WOLFSSL_KEIL_TCP_NET)
 >>>>>>> add wolfSSL files
+=======
+                                          defined(WOLFSSL_KEIL_TCP_NET) || \
+                                          defined(WOLFSSL_ESPIDF)
+>>>>>>> Added wolfssl example server
     /* nothing to define */
 #else  /* no S_NOSIGPIPE */
     signal(SIGPIPE, SIG_IGN);
@@ -918,11 +934,16 @@ static WC_INLINE void tcp_listen(SOCKET_T* sockfd, word16* port, int useAnyAddr,
 
 #if !defined(USE_WINDOWS_API) && !defined(WOLFSSL_MDK_ARM)\
 <<<<<<< HEAD
+<<<<<<< HEAD
                               && !defined(WOLFSSL_KEIL_TCP_NET)\
                               && !defined(WOLFSSL_ESPIDF)
 =======
                               && !defined(WOLFSSL_KEIL_TCP_NET)
 >>>>>>> add wolfSSL files
+=======
+                              && !defined(WOLFSSL_KEIL_TCP_NET)\
+                              && !defined(WOLFSSL_ESPIDF)
+>>>>>>> Added wolfssl example server
     {
         int       res, on  = 1;
         socklen_t len = sizeof(on);
