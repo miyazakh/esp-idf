@@ -11,7 +11,7 @@
 >>>>>>> Added README.md
 =======
 1. make menuconfig(only first time), this creates build folder
-2. set ssid and password that you want to connect
+2. set ssid and password that you want to connect(under "Example Configuration --->"
 3. go build folder
 >>>>>>> Added TLS13 settings into user_settings.h
 4. cmake .., and then make flash to write a elf file into the device.
@@ -19,8 +19,12 @@
 6. make monitor to watch the output
 7. Once the server connects to the wifi, it is waiting client request.
 <<<<<<< HEAD
+<<<<<<< HEAD
    ("Waiting for a connection..." message will be displayed.)
 =======
    ("Waiting for a connection..." message will be found.)
 
 >>>>>>> Added README.md
+=======
+   ("Waiting for a connection..." message will be displayed.)
+>>>>>>> Update README.md
