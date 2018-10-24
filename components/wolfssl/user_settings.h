@@ -10,6 +10,15 @@
 #define NO_WOLFSSL_DIR 
 #define WOLFSSL_NO_CURRDIR 
 
+/* TLS 1.3 */
+#define WOLFSSL_TLS13
+#define HAVE_TLS_EXTENSIONS
+#define WC_RSA_PSS
+#define HAVE_HKDF
+#define HAVE_FFDHE_2048
+#define HAVE_AEAD
+#define HAVE_SUPPORTED_CURVES
+
 // #define WOLFSSL_USER_CURRTIME /* for benchmark */
 #define NO_ASN_TIME
 #define XTIME time
