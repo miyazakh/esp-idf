@@ -322,5 +322,7 @@ void tls_smp_sever_task()
     wolfSSL_Cleanup();      /* Cleanup the wolfSSL environment          */
     close(sockfd);          /* Close the socket listening for clients   */
 
+    vTaskDelete(NULL);
+
     return;                 /* Return reporting a success               */
 }
