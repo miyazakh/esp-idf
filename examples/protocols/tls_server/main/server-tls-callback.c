@@ -183,7 +183,9 @@ void tls_smp_sever_task()
      ESP_LOGI(TAG, "finish socket())");
     /* Create and initialize WOLFSSL_CTX */
     ESP_LOGI(TAG, "Create and initialize WOLFSSL_CTX");
-    if ((ctx = wolfSSL_CTX_new(wolfTLSv1_2_server_method())) == NULL) {
+    ESP_LOGI(TAG, " Create wolfSSLv23_server_method()");
+    if ((ctx = wolfSSL_CTX_new(wolfSSLv23_server_method())) == NULL)
+    {
         fprintf(stderr, "ERROR: failed to create WOLFSSL_CTX\n");
         return;
     }
@@ -199,7 +201,7 @@ void tls_smp_sever_task()
     }
 #else
     if ((ret = wolfSSL_CTX_use_certificate_buffer(ctx, server_cert_der_2048,
-                        sizeof_server_cert_der_2048, 
+                        sizeof_server_cert_der_2048,
                         WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS) {
         ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.\n", ret);
     }
@@ -217,8 +219,8 @@ void tls_smp_sever_task()
     }
 #else
 
-    if((ret=wolfSSL_CTX_use_PrivateKey_buffer(ctx, 
-                            server_key_der_2048, sizeof_server_key_der_2048, 
+    if((ret=wolfSSL_CTX_use_PrivateKey_buffer(ctx,
+                            server_key_der_2048, sizeof_server_key_der_2048,
                             WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS) {
         ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.\n", ret);
     }
@@ -226,7 +228,6 @@ void tls_smp_sever_task()
     ESP_LOGI(TAG, "Finish loading...key");
 
 #endif
-
 
     /* Register callbacks */
     wolfSSL_SetIORecv(ctx, my_IORecv);
