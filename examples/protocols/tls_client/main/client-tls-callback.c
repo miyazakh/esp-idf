@@ -189,6 +189,7 @@ void tls_smp_client_task()
         return;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     /* Create and initialize WOLFSSL_CTX */
     if ((ctx = wolfSSL_CTX_new(wolfSSLv23_client_method())) == NULL)
     {
@@ -198,22 +199,20 @@ void tls_smp_client_task()
     /* Load client certificates into WOLFSSL_CTX */
 =======
 
+=======
+>>>>>>> Added README.md
     /* Create and initialize WOLFSSL_CTX */
-#ifdef WOLFSSL_TLS13
-    if ((ctx = wolfSSL_CTX_new(wolfTLSv1_3_client_method())) == NULL)
+    if ((ctx = wolfSSL_CTX_new(wolfSSLv23_client_method())) == NULL)
     {
         ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL_CTX\n");
     }
-#else
-     if ((ctx = wolfSSL_CTX_new(wolfTLSv1_2_client_method())) == NULL)
-    {
-        ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL_CTX\n");
-    }
-#endif
     ESP_LOGI(TAG, "Start loading...cert");
     /* Load client certificates into WOLFSSL_CTX */
+<<<<<<< HEAD
 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+>>>>>>> Added README.md
 #ifndef NO_FILESYSTEM
     if (wolfSSL_CTX_load_verify_locations(ctx, CERT_FILE, NULL)){
          ESP_LOGI(TAG, "ERROR: failed to load %s %d, please check the file.\n",
@@ -221,10 +220,14 @@ void tls_smp_client_task()
     }
 #else
 <<<<<<< HEAD
+<<<<<<< HEAD
     if ((ret = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_der_2048,
 =======
     if ((ret = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_der_2048, 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+    if ((ret = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_der_2048,
+>>>>>>> Added README.md
         sizeof_ca_cert_der_2048, WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS)
     {
         ESP_LOGI(TAG, "ERROR: failed to load %s %d, please check the file.\n",
@@ -256,10 +259,14 @@ void tls_smp_client_task()
 
     /* Connect to the server */
 <<<<<<< HEAD
+<<<<<<< HEAD
     ESP_LOGI(TAG, "Connecting to server....%s(port:%d)", TLS_SMP_TARGET_HOST,
 =======
     ESP_LOGI(TAG, "Connecting to server....%s(port:%d)", TLS_SMP_TARGET_HOST, 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+    ESP_LOGI(TAG, "Connecting to server....%s(port:%d)", TLS_SMP_TARGET_HOST,
+>>>>>>> Added README.md
                                                                   DEFAULT_PORT);
 retry:
     if ((ret = connect(sockfd, (struct sockaddr *)&servAddr, sizeof(servAddr))) == -1)
@@ -268,6 +275,7 @@ retry:
         /* re-try */
         sleep(5);
         if(++retry_cnt>5) {
+<<<<<<< HEAD
 <<<<<<< HEAD
              ESP_LOGI(TAG, "ERROR: failed to connect ret=%d, retry cnt %d\n",
                     ret, retry_cnt);
@@ -281,6 +289,13 @@ retry:
         };
         ESP_LOGI(TAG, "ERROR: failed to connect ret=%d, retry cnt %d\n", 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+             ESP_LOGI(TAG, "ERROR: failed to connect ret=%d, retry cnt %d\n",
+                    ret, retry_cnt);
+            return;
+        };
+        ESP_LOGI(TAG, "ERROR: failed to connect ret=%d, retry cnt %d\n",
+>>>>>>> Added README.md
                     ret, retry_cnt);
         goto retry;
     }
@@ -310,10 +325,14 @@ retry:
     printf("Message for server: ");
     memset(buff, 0, sizeof(buff));
 <<<<<<< HEAD
+<<<<<<< HEAD
     sprintf(buff, "message from client\n");
 =======
     fgets(buff, sizeof(buff), stdin);
 >>>>>>> Add simple tls_client with wolfssl
+=======
+    sprintf(buff, "message from client\n");
+>>>>>>> Added README.md
     len = strnlen(buff, sizeof(buff));
 
     /* Send the message to the server */
@@ -323,10 +342,14 @@ retry:
         return;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     ESP_LOGI(TAG, "Write OK");
 =======
 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+    ESP_LOGI(TAG, "Write OK");
+>>>>>>> Added README.md
     /* Read the server data into our buff array */
     memset(buff, 0, sizeof(buff));
     if (wolfSSL_read(ssl, buff, sizeof(buff) - 1) == -1)
@@ -335,10 +358,14 @@ retry:
         return;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
      ESP_LOGI(TAG, "Read OK");
 =======
 
 >>>>>>> Add simple tls_client with wolfssl
+=======
+     ESP_LOGI(TAG, "Read OK");
+>>>>>>> Added README.md
     /* Print to stdout any data the server sends */
     ESP_LOGI(TAG, "Server: %s\n", buff);
 
@@ -348,11 +375,17 @@ retry:
     wolfSSL_Cleanup();     /* Cleanup the wolfSSL environment          */
     close(sockfd);         /* Close the connection to the server       */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Added README.md
 
     vTaskDelete(NULL);
     return;                /* Return reporting a success               */
 }
+<<<<<<< HEAD
 =======
     return;                /* Return reporting a success               */
 }
 >>>>>>> Add simple tls_client with wolfssl
+=======
+>>>>>>> Added README.md

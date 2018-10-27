@@ -358,9 +358,14 @@ void tls_smp_sever_task()
     close(sockfd);          /* Close the socket listening for clients   */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     vTaskDelete(NULL);
 
 =======
 >>>>>>> Added tls_server based on wolfssl
+=======
+    vTaskDelete(NULL);
+
+>>>>>>> Added README.md
     return;                 /* Return reporting a success               */
 }
