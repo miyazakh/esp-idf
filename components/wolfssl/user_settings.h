@@ -10,7 +10,7 @@
 >>>>>>> Added wolfssl example server
 #define BENCH_EMBEDDED
 #define NO_WRITEV
-#define WOLFSSL_USER_IO
+/* #define WOLFSSL_USER_IO */
 #define NO_DEV_RANDOM
 #define USE_CERT_BUFFERS_2048
 #define WOLFSSL_USER_CURRTIME
@@ -19,6 +19,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 #define WOLFSSL_NO_CURRDIR 
+
 
 /* TLS 1.3 */
 #define WOLFSSL_TLS13
@@ -63,7 +64,7 @@
 =======
 #define SINGLE_THREADED /* or define RTOS  option */
 /* #define WOLFSSL_CMSIS_RTOS */
-#define NO_FILESYSTEM 
+/* #define NO_FILESYSTEM */
 /* #define TEST_LOAD_BUFFER */
 /* #define FORCE_BUFFER_TEST */
 >>>>>>> Added wolfssl example server
@@ -80,12 +81,20 @@
 >>>>>>> Added wolfssl example server
 #define HAVE_ED25519
 
-#define DEBUG_WOLFSSL
-#define WOLFSSL_LOG_PRINTF
+/* debug options */
+/* #define DEBUG_WOLFSSL */
+/* #define WOLFSSL_LOG_PRINTF */
 #define WOLFSSL_ESPIDF
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 #define HAVE_ED25519
 >>>>>>> add wolfSSL files
 =======
 >>>>>>> Added wolfssl example server
+=======
+
+/* memory usage */
+/* #define USE_WOLFSSL_MEMORY */
+#define WOLFSSL_TRACK_MEMORY
+>>>>>>> Update

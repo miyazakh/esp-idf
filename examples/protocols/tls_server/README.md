@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 1. make menuconfig(only first time), this creates build folder
 2. set ssid and password that you want to connect(under "Example Configuration --->"
+<<<<<<< HEAD
 3. go build folder
 =======
 1. make menuconfig(only first time)
@@ -26,5 +27,10 @@
 
 >>>>>>> Added README.md
 =======
+=======
+3. ake flash to write a elf file into the device.
+4. to monitor the output, type make monitor
+7. Once the server connects to the wifi, it is waiting for client request.
+>>>>>>> Update
    ("Waiting for a connection..." message will be displayed.)
 >>>>>>> Update README.md

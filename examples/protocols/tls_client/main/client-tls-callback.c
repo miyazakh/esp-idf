@@ -45,115 +45,10 @@
 
 static const char *TAG = "tls_client";
 
-int my_IORecv(WOLFSSL *ssl, char *buff, int sz, void *ctx)
-{
-    /* By default, ctx will be a pointer to the file descriptor to read from.
-     * This can be changed by calling wolfSSL_SetIOReadCtx(). */
-    int sockfd = *(int *)ctx;
-    int recvd;
-
-    /* Receive message from socket */
-    if ((recvd = recv(sockfd, buff, sz, 0)) == -1)
-    {
-        /* error encountered. Be responsible and report it in wolfSSL terms */
-
-        fprintf(stderr, "IO RECEIVE ERROR: ");
-        switch (errno)
-        {
-#if EAGAIN != EWOULDBLOCK
-        case EAGAIN: /* EAGAIN == EWOULDBLOCK on some systems, but not others */
-#endif
-        case EWOULDBLOCK:
-            if (!wolfSSL_dtls(ssl) || wolfSSL_get_using_nonblock(ssl))
-            {
-                ESP_LOGI(TAG, "would block\n");
-                return WOLFSSL_CBIO_ERR_WANT_READ;
-            }
-            else
-            {
-                ESP_LOGI(TAG, "socket timeout\n");
-                return WOLFSSL_CBIO_ERR_TIMEOUT;
-            }
-        case ECONNRESET:
-            ESP_LOGI(TAG, "connection reset\n");
-            return WOLFSSL_CBIO_ERR_CONN_RST;
-        case EINTR:
-            ESP_LOGI(TAG, "socket interrupted\n");
-            return WOLFSSL_CBIO_ERR_ISR;
-        case ECONNREFUSED:
-            ESP_LOGI(TAG, "connection refused\n");
-            return WOLFSSL_CBIO_ERR_WANT_READ;
-        case ECONNABORTED:
-            ESP_LOGI(TAG, "connection aborted\n");
-            return WOLFSSL_CBIO_ERR_CONN_CLOSE;
-        default:
-            ESP_LOGI(TAG, "general error\n");
-            return WOLFSSL_CBIO_ERR_GENERAL;
-        }
-    }
-    else if (recvd == 0)
-    {
-        printf("Connection closed\n");
-        return WOLFSSL_CBIO_ERR_CONN_CLOSE;
-    }
-
-    /* successful receive */
-    ESP_LOGI(TAG, "my_IORecv: received %d bytes from %d\n", sz, sockfd);
-    return recvd;
-}
-
-int my_IOSend(WOLFSSL *ssl, char *buff, int sz, void *ctx)
-{
-    /* By default, ctx will be a pointer to the file descriptor to write to.
-     * This can be changed by calling wolfSSL_SetIOWriteCtx(). */
-    int sockfd = *(int *)ctx;
-    int sent;
-
-    /* Receive message from socket */
-    if ((sent = send(sockfd, buff, sz, 0)) == -1)
-    {
-        /* error encountered. Be responsible and report it in wolfSSL terms */
-
-        ESP_LOGI(TAG, "IO SEND ERROR: ");
-        switch (errno)
-        {
-#if EAGAIN != EWOULDBLOCK
-        case EAGAIN: /* EAGAIN == EWOULDBLOCK on some systems, but not others */
-#endif
-        case EWOULDBLOCK:
-            ESP_LOGI(TAG, "would block\n");
-            return WOLFSSL_CBIO_ERR_WANT_READ;
-        case ECONNRESET:
-            ESP_LOGI(TAG, "connection reset\n");
-            return WOLFSSL_CBIO_ERR_CONN_RST;
-        case EINTR:
-            ESP_LOGI(TAG, "socket interrupted\n");
-            return WOLFSSL_CBIO_ERR_ISR;
-        case EPIPE:
-            ESP_LOGI(TAG, "socket EPIPE\n");
-            return WOLFSSL_CBIO_ERR_CONN_CLOSE;
-        default:
-            ESP_LOGI(TAG, "general error\n");
-            return WOLFSSL_CBIO_ERR_GENERAL;
-        }
-    }
-    else if (sent == 0)
-    {
-        ESP_LOGI(TAG, "Connection closed\n");
-        return 0;
-    }
-
-    /* successful send */
-    ESP_LOGI(TAG, "my_IOSend: sent %d bytes to %d\n", sz, sockfd);
-    return sent;
-}
-
-//int app_main(int argc, char** argv)
 void tls_smp_client_task()
 {
     int ret;
     int sockfd;
-    int retry_cnt;
     struct sockaddr_in servAddr;
     char buff[256];
     size_t len;
@@ -161,8 +56,6 @@ void tls_smp_client_task()
     /* declare wolfSSL objects */
     WOLFSSL_CTX *ctx;
     WOLFSSL *ssl;
-
-    retry_cnt = 0;
 
     /* Check for proper calling convention */
 #ifndef WOLFSSL_ESPIDF
@@ -186,7 +79,6 @@ void tls_smp_client_task()
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         ESP_LOGI(TAG, "ERROR: failed to create the socket\n");
-        return;
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -197,6 +89,7 @@ void tls_smp_client_task()
     }
     ESP_LOGI(TAG, "Start loading...cert");
     /* Load client certificates into WOLFSSL_CTX */
+<<<<<<< HEAD
 =======
 
 =======
@@ -226,6 +119,8 @@ void tls_smp_client_task()
     if ((ret = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_der_2048, 
 >>>>>>> Add simple tls_client with wolfssl
 =======
+=======
+>>>>>>> Update
     if ((ret = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_der_2048,
 >>>>>>> Added README.md
         sizeof_ca_cert_der_2048, WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS)
@@ -234,10 +129,6 @@ void tls_smp_client_task()
                  CERT_FILE, ret);
     }
     ESP_LOGI(TAG, "Finish loading...cert");
-#endif
-    /* Register callbacks */
-    wolfSSL_SetIORecv(ctx, my_IORecv);
-    wolfSSL_SetIOSend(ctx, my_IOSend);
 
     ESP_LOGI(TAG, "Finish Register callbacks...");
     /* Initialize the server address struct with zeros */
@@ -268,10 +159,10 @@ void tls_smp_client_task()
     ESP_LOGI(TAG, "Connecting to server....%s(port:%d)", TLS_SMP_TARGET_HOST,
 >>>>>>> Added README.md
                                                                   DEFAULT_PORT);
-retry:
     if ((ret = connect(sockfd, (struct sockaddr *)&servAddr, sizeof(servAddr))) == -1)
     {
         ESP_LOGI(TAG, "ERROR: failed to connect ret=%d\n", ret);
+<<<<<<< HEAD
         /* re-try */
         sleep(5);
         if(++retry_cnt>5) {
@@ -298,6 +189,8 @@ retry:
 >>>>>>> Added README.md
                     ret, retry_cnt);
         goto retry;
+=======
+>>>>>>> Update
     }
     ESP_LOGI(TAG, "OK");
 
@@ -306,7 +199,6 @@ retry:
     if ((ssl = wolfSSL_new(ctx)) == NULL)
     {
         ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL object\n");
-        return;
     }
     ESP_LOGI(TAG, "OK");
 
@@ -318,7 +210,6 @@ retry:
     if (wolfSSL_connect(ssl) != SSL_SUCCESS)
     {
         ESP_LOGI(TAG, "ERROR: failed to connect to wolfSSL\n");
-        return;
     }
     ESP_LOGI(TAG, "OK");
     /* Get a message for the server from stdin */
@@ -339,7 +230,6 @@ retry:
     if (wolfSSL_write(ssl, buff, len) != len)
     {
         ESP_LOGI(TAG, "ERROR: failed to write\n");
-        return;
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -355,7 +245,6 @@ retry:
     if (wolfSSL_read(ssl, buff, sizeof(buff) - 1) == -1)
     {
         ESP_LOGI(TAG, "ERROR: failed to read\n");
-        return;
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -380,6 +269,7 @@ retry:
 >>>>>>> Added README.md
 
     vTaskDelete(NULL);
+
     return;                /* Return reporting a success               */
 }
 <<<<<<< HEAD
