@@ -365,7 +365,10 @@ WOLFSSL_API int wolfCrypt_Cleanup(void);
     WOLFSSL_API int wc_ReadDirNext(ReadDirCtx* ctx, const char* path, char** name);
     WOLFSSL_API void wc_ReadDirClose(ReadDirCtx* ctx);
 #endif /* !NO_WOLFSSL_DIR */
-
+#else
+    #ifdef WOLFSSL_ESPIDF
+        #include <stdio.h>
+    #endif
 #endif /* !NO_FILESYSTEM */
 
 /* Windows API defines its own min() macro. */

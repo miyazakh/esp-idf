@@ -2060,6 +2060,20 @@ int wc_GenerateSeed(OS_Seed* os, byte* output, word32 sz)
         return 0;
     }
 
+#elif defined(WOLFSSL_ESPIDF)
+    #include <esp_system.h>
+    
+    int wc_GenerateSeed(OS_Seed* os, byte* output, word32 sz)
+    {
+        int i;
+        
+        for (i = 0; i< sz; i++) {
+           output[i] =  esp_random( );
+        }
+
+        return 0;
+    }
+
 #elif defined(CUSTOM_RAND_GENERATE_BLOCK)
     /* #define CUSTOM_RAND_GENERATE_BLOCK myRngFunc
      * extern int myRngFunc(byte* output, word32 sz);
@@ -2155,6 +2169,7 @@ int wc_GenerateSeed(OS_Seed* os, byte* output, word32 sz)
     #ifndef _MSC_VER
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //        #warning "write a real random seed!!!!, just for testing now"
 =======
         #warning "write a real random seed!!!!, just for testing now"
@@ -2162,6 +2177,9 @@ int wc_GenerateSeed(OS_Seed* os, byte* output, word32 sz)
 =======
 //        #warning "write a real random seed!!!!, just for testing now"
 >>>>>>> stop gups for warnings
+=======
+        #warning "write a real random seed!!!!, just for testing now"
+>>>>>>> Added wc_GenerateSeed() for ESP32
     #else
         #pragma message("Warning: write a real random seed!!!!, just for testing now")
     #endif
