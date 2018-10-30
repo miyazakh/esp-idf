@@ -1,4 +1,3 @@
-
 /*ESP specific */
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -6,9 +5,9 @@
 
 #include "my_esp_wifi.h"
 
-/* */
 #include "lwip/sockets.h"
 #include "lwip/netdb.h"
+#include "lwip/apps/sntp.h"
 
 #include "nvs_flash.h"
 
@@ -16,18 +15,94 @@
    but we only care about one event - are we connected
    to the AP with an IP? */
 const static int CONNECTED_BIT = BIT0;
-
-const static char *TAG = "tls_smp_server";
-
 static EventGroupHandle_t wifi_event_group;
-extern void tls_smp_sever_task();
+/* prefix for logging */
+const static char *TAG = "tls_server";
+/* proto-type */
+extern void tls_smp_server_task();
+static void tls_smp_server_init();
+static void wifi_conn_init();
+static int  sntp_time();
 
+/* initializa sntp component */
+static void initialize_sntp()
+{
+    ESP_LOGI(TAG, "Initializing SNTP");
+    sntp_setoperatingmode(SNTP_OPMODE_POLL);
+    sntp_setservername(0, "pool.ntp.org");
+    sntp_init();
+}
+
+/* start wifi, and trying to connect sntp site. */
+/* after setting time, the task will be started.*/
+static void obtain_time()
+{
+    ESP_ERROR_CHECK(nvs_flash_init());
+
+    wifi_conn_init( );
+    xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, 
+                                            false, true, portMAX_DELAY);
+
+    initialize_sntp();
+
+    /* wait for time to be set */
+    time_t now = 0;
+    struct tm timeinfo = { 0 };
+    int retry = 0;
+    int retry_count = 10;
+
+    while(timeinfo.tm_year < (2018 - 1900) && ++retry < retry_count) {
+        ESP_LOGI(TAG, "Waiting for system time to be set ...(%d/%d)", retry, 
+                                                            retry_count);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
+        time(&now);
+        localtime_r(&now, &timeinfo);
+    }
+
+    /* ESP_ERROR_CHECK( esp_wifi_stop()); */
+
+}
+
+/* check if the time is in reasonable range. */
+/* if not, it connects sntp site.            */
+static int sntp_time(void)
+{
+    char strftime_buf[64];
+    time_t now;
+    struct tm timeinfo;
+    int sntp = 0;
+    time(&now);
+    localtime_r(&now, &timeinfo);
+    
+    if(timeinfo.tm_year < (2018 - 1900)) {
+        ESP_LOGI(TAG, "Time is not set yet. Connecting to WiFi and getting time"
+                        " NTP.");
+        obtain_time();
+        /* upsate 'now' variable with current time */
+        time(&now);
+        localtime_r(&now, &timeinfo);
+
+        sntp = 1;
+    }
+
+    strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+
+    ESP_LOGI(TAG, "The current date/time in XXX is: %s", strftime_buf);
+
+    /* start server task */
+    ESP_LOGI(TAG, "Now start the task");
+    tls_smp_server_init();
+
+    return sntp;
+}
+
+/* create task */
 static void tls_smp_server_init(void)
 {
     int ret;
     xTaskHandle _handle;
 
-    ret = xTaskCreate(tls_smp_sever_task,
+    ret = xTaskCreate(tls_smp_server_task,
                       TLS_SMP_SERVER_TASK_NAME,
                       TLS_SMP_SERVER_TASK_WORDS,
                       NULL,
@@ -52,9 +127,6 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event)
         ESP_LOGI(TAG, "got ip:%s",
                  ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
         xEventGroupSetBits(wifi_event_group, CONNECTED_BIT);
-        /* start server task */
-        tls_smp_server_init();
-
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
         /* This is a workaround as ESP32 WiFi libs don't currently
@@ -67,7 +139,7 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event)
     }
     return ESP_OK;
 }
-
+/* wifi connection */
 static void wifi_conn_init(void)
 {
     tcpip_adapter_init();
@@ -98,18 +170,22 @@ static void wifi_conn_init(void)
                                         TLS_SMP_WIFI_SSID, TLS_SMP_WIFI_PASS);
 
 }
-
+/* entry point */
 void app_main(void)
 {
     ESP_LOGI(TAG, "Start app_main...");
+    ESP_LOGI(TAG, "Check time...");
+    int wifi_on = sntp_time();
 
     //Initialize NVS
-    esp_err_t ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-      ESP_ERROR_CHECK(nvs_flash_erase());
-      ret = nvs_flash_init();
+    if(!wifi_on) {
+        
+        esp_err_t ret = nvs_flash_init();
+        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+            ESP_ERROR_CHECK(nvs_flash_erase());
+            ret = nvs_flash_init();
+        }
+        ESP_ERROR_CHECK(ret);
+        wifi_conn_init();
     }
-    ESP_ERROR_CHECK(ret);
-
-    wifi_conn_init();
 }

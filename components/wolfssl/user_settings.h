@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 =======
 #define WOLFSSL_ESPIDF
+<<<<<<< HEAD
 >>>>>>> Added wc_GenerateSeed() for ESP32
 /* #define NO_MAIN_DRIVER */
 =======
@@ -12,9 +13,11 @@
 =======
 /* #define NO_MAIN_DRIVER */
 >>>>>>> Added wolfssl example server
+=======
+
+>>>>>>> Added SNTP to sync time.
 #define BENCH_EMBEDDED
 #define NO_WRITEV
-/* #define WOLFSSL_USER_IO */
 #define NO_DEV_RANDOM
 #define USE_CERT_BUFFERS_2048
 #define WOLFSSL_USER_CURRTIME
@@ -23,7 +26,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 #define WOLFSSL_NO_CURRDIR 
-
 
 /* TLS 1.3 */
 #define WOLFSSL_TLS13
@@ -34,6 +36,7 @@
 #define HAVE_AEAD
 #define HAVE_SUPPORTED_CURVES
 
+<<<<<<< HEAD
 // #define WOLFSSL_USER_CURRTIME /* for benchmark */
 =======
 #define WOLFSSL_NO_CURRDIR
@@ -48,6 +51,10 @@
 #define NO_ASN_TIME
 #define XTIME time
 /* #define WOLFSSL_GENSEED_FORTEST*/ /* Wardning: define your own seed gen */
+=======
+/* #define NO_ASN_TIME */
+/* #define XTIME time */
+>>>>>>> Added SNTP to sync time.
 
 #define TFM_TIMING_RESISTANT
 #define ECC_TIMING_RESISTANT
@@ -109,7 +116,7 @@
 >>>>>>> Update
 =======
 
-/* memory usage */
+/* debug: memory usage */
 /* #define USE_WOLFSSL_MEMORY */
 /* #define WOLFSSL_TRACK_MEMORY */
 >>>>>>> Added wc_GenerateSeed() for ESP32

@@ -144,7 +144,6 @@ void tls_smp_client_task()
     if ((ret = inet_pton(AF_INET, TLS_SMP_TARGET_HOST, &servAddr.sin_addr)) != 1)
     {
         ESP_LOGI(TAG, "ERROR: invalid address ret=%d\n", ret);
-        return;
     }
     ESP_LOGI(TAG, "OK");
 
@@ -213,7 +212,7 @@ void tls_smp_client_task()
     }
     ESP_LOGI(TAG, "OK");
     /* Get a message for the server from stdin */
-    printf("Message for server: ");
+    ESP_LOGI(TAG, "Message for server: ");
     memset(buff, 0, sizeof(buff));
 <<<<<<< HEAD
 <<<<<<< HEAD

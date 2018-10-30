@@ -45,12 +45,9 @@
     #include <wolfssl/wolfcrypt/mem_track.h>
 #endif
 
-#define CERT_FILE "../certs/server-cert.pem"
-#define KEY_FILE  "../certs/server-key.pem"
-
 static const char *TAG = "tls_server";
 
-void tls_smp_sever_task()
+void tls_smp_server_task()
 {
     int                sockfd;
     int                connd;
@@ -68,9 +65,8 @@ void tls_smp_sever_task()
 
     ESP_LOGI(TAG, "start app_main()");
 
-    ESP_LOGI(TAG, "Debug ON");
-
 #ifdef DEBUG_WOLFSSL
+    ESP_LOGI(TAG, "Debug ON");
     wolfSSL_Debugging_ON();
 #endif
 #ifdef WOLFSSL_TRACK_MEMORY
@@ -85,12 +81,13 @@ void tls_smp_sever_task()
      * 0 means choose the default protocol. */
     ESP_LOGI(TAG, "start socket())");
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        fprintf(stderr, "ERROR: failed to create the socket\n");
-        return;
+        ESP_LOGI(TAG,"ERROR: failed to create the socket");
     }
-     ESP_LOGI(TAG, "finish socket())");
+    ESP_LOGI(TAG, "finish socket())");
+   
     /* Create and initialize WOLFSSL_CTX */
     ESP_LOGI(TAG, "Create and initialize WOLFSSL_CTX");
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     ESP_LOGI(TAG, " Create wolfSSLv23_server_method()");
@@ -106,8 +103,12 @@ void tls_smp_sever_task()
 >>>>>>> Use wolfSSLv23_server_method()
         fprintf(stderr, "ERROR: failed to create WOLFSSL_CTX\n");
         return;
+=======
+    ESP_LOGI(TAG, "Create wolfSSLv23_server_method()");
+    if ((ctx = wolfSSL_CTX_new(wolfSSLv23_server_method())) == NULL) {
+        ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL_CTX");
+>>>>>>> Added SNTP to sync time.
     }
-    ESP_LOGI(TAG, "new !");
 
     /* Load server certificates into WOLFSSL_CTX */
     if ((ret = wolfSSL_CTX_use_certificate_buffer(ctx, server_cert_der_2048,
@@ -121,7 +122,7 @@ void tls_smp_sever_task()
                         sizeof_server_cert_der_2048,
 >>>>>>> Use wolfSSLv23_server_method()
                         WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS) {
-        ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.\n", ret);
+        ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.", ret);
     }
 
     ESP_LOGI(TAG, "Finish loading...cert");
@@ -152,11 +153,12 @@ void tls_smp_sever_task()
                             server_key_der_2048, sizeof_server_key_der_2048,
 >>>>>>> Use wolfSSLv23_server_method()
                             WOLFSSL_FILETYPE_ASN1)) != SSL_SUCCESS) {
-        ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.\n", ret);
+        ESP_LOGI(TAG, "ERROR: failed to load (ret=%d,) please check.", ret);
     }
 
     ESP_LOGI(TAG, "Finish loading...key");
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #endif
 
@@ -173,6 +175,8 @@ void tls_smp_sever_task()
     /* wolfSSL_SetIORecv(ctx, my_IORecv); */
     /* wolfSSL_SetIOSend(ctx, my_IOSend); */
 
+=======
+>>>>>>> Added SNTP to sync time.
     /* Initialize the server address struct with zeros */
     memset(&servAddr, 0, sizeof(servAddr));
 
@@ -183,74 +187,71 @@ void tls_smp_sever_task()
 
     /* Bind the server socket to our port */
     if (bind(sockfd, (struct sockaddr*)&servAddr, sizeof(servAddr)) == -1) {
-         ESP_LOGI(TAG, "ERROR: failed to bind\n");
+         ESP_LOGI(TAG, "ERROR: failed to bind");
     }
 
     /* Listen for a new connection, allow 5 pending connections */
     if (listen(sockfd, 5) == -1) {
-         ESP_LOGI(TAG, "ERROR: failed to listen\n");
+         ESP_LOGI(TAG, "ERROR: failed to listen");
     }
 
     /* Continue to accept clients until shutdown is issued */
     while (!shutdown) {
-         ESP_LOGI(TAG,"Waiting for a connection...\n");
+         ESP_LOGI(TAG,"Waiting for a connection...");
 
         /* Accept client connections */
-        if ((connd = accept(sockfd, (struct sockaddr*)&clientAddr, &size)) == -1)
-        {
-             ESP_LOGI(TAG, "ERROR: failed to accept the connection\n\n");
+        if ((connd = accept(sockfd, (struct sockaddr*)&clientAddr, &size))
+            == -1) {
+             ESP_LOGI(TAG, "ERROR: failed to accept the connection");
         }
 
         /* Create a WOLFSSL object */
         if ((ssl = wolfSSL_new(ctx)) == NULL) {
-             ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL object\n");
+             ESP_LOGI(TAG, "ERROR: failed to create WOLFSSL object");
         }
 
         /* Attach wolfSSL to the socket */
         wolfSSL_set_fd(ssl, connd);
-#ifdef WOLFSSL_TRACK_MEMORY
-        ShowMemoryTracker();
-#endif
         /* Establish TLS connection */
         ret = wolfSSL_accept(ssl);
         if (ret != SSL_SUCCESS) {
-            ESP_LOGI(TAG, "wolfSSL_accept error = %d\n",
+            ESP_LOGI(TAG, "wolfSSL_accept error = %d",
                 wolfSSL_get_error(ssl, ret));
         }
-
-        ESP_LOGI(TAG,"Client connected successfully\n");
+        ESP_LOGI(TAG,"Client connected successfully");
 
         /* Read the client data into our buff array */
         memset(buff, 0, sizeof(buff));
         if (wolfSSL_read(ssl, buff, sizeof(buff)-1) == -1) {
-            ESP_LOGI(TAG, "ERROR: failed to read\n");
+            ESP_LOGI(TAG, "ERROR: failed to read");
         }
 
         /* Print to stdout any data the client sends */
-        ESP_LOGI(TAG,"Client: %s\n", buff);
+        ESP_LOGI(TAG,"Client: %s", buff);
 
         /* Check for server shutdown command */
         if (strncmp(buff, "shutdown", 8) == 0) {
-            ESP_LOGI(TAG,"Shutdown command issued!\n");
+            ESP_LOGI(TAG,"Shutdown command issued!");
             shutdown = 1;
         }
 
         /* Write our reply into buff */
         memset(buff, 0, sizeof(buff));
-        memcpy(buff, "I hear ya fa shizzle!\n", sizeof(buff));
+        memcpy(buff, "I hear ya fa shizzle!", sizeof(buff));
         len = strnlen(buff, sizeof(buff));
 
         /* Reply back to the client */
         if (wolfSSL_write(ssl, buff, len) != len) {
-            ESP_LOGI(TAG, "ERROR: failed to write\n");
+            ESP_LOGI(TAG, "ERROR: failed to write");
         }
 
+#ifdef WOLFSSL_TRACK_MEMORY
+        ShowMemoryTracker();
+#endif
         /* Cleanup after this connection */
         wolfSSL_free(ssl);      /* Free the wolfSSL object              */
         close(connd);           /* Close the connection to the client   */
     }
-
-    printf("Shutdown complete\n");
 
     /* Cleanup and return */
     wolfSSL_CTX_free(ctx);  /* Free the wolfSSL context object          */
