@@ -18,7 +18,6 @@
 >>>>>>> Added SNTP to sync time.
 #define BENCH_EMBEDDED
 #define NO_WRITEV
-#define NO_DEV_RANDOM
 #define USE_CERT_BUFFERS_2048
 #define SIZEOF_LONG_LONG 8
 #define NO_WOLFSSL_DIR 
