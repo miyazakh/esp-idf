@@ -20,7 +20,6 @@
 #define NO_WRITEV
 #define NO_DEV_RANDOM
 #define USE_CERT_BUFFERS_2048
-#define WOLFSSL_USER_CURRTIME
 #define SIZEOF_LONG_LONG 8
 #define NO_WOLFSSL_DIR 
 <<<<<<< HEAD
