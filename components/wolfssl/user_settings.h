@@ -27,7 +27,7 @@
 <<<<<<< HEAD
 #define WOLFSSL_NO_CURRDIR 
 
-/* TLS 1.3 */
+/* TLS 1.3                                 */
 #define WOLFSSL_TLS13
 #define HAVE_TLS_EXTENSIONS
 #define WC_RSA_PSS
@@ -36,6 +36,7 @@
 #define HAVE_AEAD
 #define HAVE_SUPPORTED_CURVES
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // #define WOLFSSL_USER_CURRTIME /* for benchmark */
 =======
@@ -52,6 +53,11 @@
 #define XTIME time
 /* #define WOLFSSL_GENSEED_FORTEST*/ /* Wardning: define your own seed gen */
 =======
+=======
+/* date/time                               */
+/* if it cannot adjust time in the device, */
+/* enable macro below                      */
+>>>>>>> Use WOLFSSL_MSG() in server-tls.c
 /* #define NO_ASN_TIME */
 /* #define XTIME time */
 >>>>>>> Added SNTP to sync time.
@@ -98,6 +104,7 @@
 
 /* debug options */
 /* #define DEBUG_WOLFSSL */
+<<<<<<< HEAD
 /* #define WOLFSSL_LOG_PRINTF */
 <<<<<<< HEAD
 #define WOLFSSL_ESPIDF
@@ -115,6 +122,8 @@
 #define WOLFSSL_TRACK_MEMORY
 >>>>>>> Update
 =======
+=======
+>>>>>>> Use WOLFSSL_MSG() in server-tls.c
 
 /* debug: memory usage */
 /* #define USE_WOLFSSL_MEMORY */

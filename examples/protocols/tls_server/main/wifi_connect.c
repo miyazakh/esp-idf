@@ -1,9 +1,9 @@
-/*ESP specific */
+/* ESP specific */
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 
-#include "my_esp_wifi.h"
+#include "wifi_connect.h"
 
 #include "lwip/sockets.h"
 #include "lwip/netdb.h"
@@ -42,7 +42,6 @@ static void obtain_time()
     wifi_conn_init( );
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, 
                                             false, true, portMAX_DELAY);
-
     initialize_sntp();
 
     /* wait for time to be set */
@@ -71,6 +70,7 @@ static int sntp_time(void)
     time_t now;
     struct tm timeinfo;
     int sntp = 0;
+    
     time(&now);
     localtime_r(&now, &timeinfo);
     
@@ -86,8 +86,7 @@ static int sntp_time(void)
     }
 
     strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
-
-    ESP_LOGI(TAG, "The current date/time in XXX is: %s", strftime_buf);
+    ESP_LOGI(TAG, "The current date/time is: %s", strftime_buf);
 
     /* start server task */
     ESP_LOGI(TAG, "Now start the task");
@@ -145,13 +144,9 @@ static void wifi_conn_init(void)
     tcpip_adapter_init();
 
     wifi_event_group = xEventGroupCreate();
-
     ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
-    
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-    
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
 
     wifi_config_t wifi_config = {

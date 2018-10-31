@@ -18,9 +18,4 @@
 #define TLS_SMP_WIFI_PASS                CONFIG_WIFI_PASSWORD
 #define TLS_SMP_TARGET_HOST              CONFIG_TARGET_HOST
 
-// #ifdef WOLFSSL_ESPIDF
-//     #undef printf
-//     #define printf                      ESP_LOGI
-// #endif
-
 #endif

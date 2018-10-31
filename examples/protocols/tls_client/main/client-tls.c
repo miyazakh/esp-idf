@@ -26,7 +26,7 @@
 #include <errno.h>
 
 /* ESP specific */
-#include "my_esp_wifi.h"
+#include "wifi_connect.h"
 
 /* socket includes */
 #include <sys/socket.h>

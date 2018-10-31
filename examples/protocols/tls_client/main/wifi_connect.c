@@ -3,7 +3,7 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 
-#include "my_esp_wifi.h"
+#include "wifi_connect.h"
 
 #include "lwip/sockets.h"
 #include "lwip/netdb.h"

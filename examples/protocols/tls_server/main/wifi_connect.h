@@ -4,7 +4,6 @@
 #ifndef _TLS_WIFI_H_
 #define _TLS_WIFI_H_
 
-
 #include "esp_log.h"
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
