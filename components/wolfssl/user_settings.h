@@ -2,7 +2,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+#define FREERTOS
+#define WOLFSSL_LWIP
+>>>>>>> Using FREERTOS and LWIP definition
 #define WOLFSSL_ESPIDF
 <<<<<<< HEAD
 >>>>>>> Added wc_GenerateSeed() for ESP32
@@ -20,10 +25,15 @@
 #define NO_WRITEV
 #define USE_CERT_BUFFERS_2048
 #define SIZEOF_LONG_LONG 8
+<<<<<<< HEAD
 #define NO_WOLFSSL_DIR 
 <<<<<<< HEAD
 <<<<<<< HEAD
 #define WOLFSSL_NO_CURRDIR 
+=======
+#define NO_WOLFSSL_DIR
+#define WOLFSSL_NO_CURRDIR
+>>>>>>> Using FREERTOS and LWIP definition
 
 /* TLS 1.3                                 */
 #define WOLFSSL_TLS13

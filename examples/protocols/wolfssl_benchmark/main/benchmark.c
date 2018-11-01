@@ -4988,15 +4988,10 @@ exit_ed_verify:
 
 #elif defined(FREERTOS) || defined(WOLFSSL_ESPIDF)
 
-#if defined(FREERTOS)
     #include "task.h"
-#elif defined(WOLFSSL_ESPIDF)
+#if defined(WOLFSSL_ESPIDF)
     /* proto type definition */
     int construct_argv();
-
-    #include "freertos/FreeRTOS.h"
-    #include "freertos/task.h"
-
     extern char* __argv[22];
 #endif
     double current_time(int reset)

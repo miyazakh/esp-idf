@@ -610,7 +610,9 @@ extern void uITRON4_free(void *p) ;
         #define XMALLOC(s, h, type)  pvPortMalloc((s))
         #define XFREE(p, h, type)    vPortFree((p))
     #endif
-
+    #if defined(WOLFSSL_ESPIDF)
+        #define XREALLOC(p, n, h, t) wolfSSL_Realloc((p), (n))
+    #endif
     #ifndef NO_WRITEV
         #define NO_WRITEV
     #endif
@@ -1023,7 +1025,7 @@ extern void uITRON4_free(void *p) ;
                     #define HAVE_ECC224
                     #undef  NO_ECC256
                     #define HAVE_ECC384
-                #endif          
+                #endif
             #endif
         #endif
     #endif
@@ -1375,7 +1377,7 @@ extern void uITRON4_free(void *p) ;
     #if !defined(HAVE_FIPS) && !defined(NO_RSA)
         #define WC_RSA_BLINDING
     #endif
-	
+
     #define NO_FILESYSTEM
     #define ECC_TIMING_RESISTANT
     #define TFM_TIMING_RESISTANT

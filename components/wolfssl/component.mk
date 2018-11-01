@@ -3,6 +3,7 @@
 #
 
 COMPONENT_ADD_INCLUDEDIRS := .
+COMPONENT_ADD_INCLUDEDIRS += ../freertos/include/freertos/
 
 COMPONENT_SRCDIRS := src wolfcrypt/src
 
