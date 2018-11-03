@@ -7,6 +7,8 @@ COMPONENT_ADD_INCLUDEDIRS += ../freertos/include/freertos/
 
 COMPONENT_SRCDIRS := src wolfcrypt/src
 
+CFLAGS += -DWOLFSSL_USER_SETTINGS
+
 COMPONENT_OBJEXCLUDE := wolfcrypt/src/aes_asm.o
 COMPONENT_OBJEXCLUDE += wolfcrypt/src/evp.o
 COMPONENT_OBJEXCLUDE += wolfcrypt/src/misc.o

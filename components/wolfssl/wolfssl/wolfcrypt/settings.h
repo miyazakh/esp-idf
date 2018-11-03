@@ -175,9 +175,11 @@
 /* Uncomment next line if building for using Apache mynewt */
 /* #define WOLFSSL_APACHE_MYNEWT */
 
+/* Uncomment next line if building for using ESP-IDF */
+#define WOLFSSL_ESPIDF
+
 #include <wolfssl/wolfcrypt/visibility.h>
 
-#define WOLFSSL_USER_SETTINGS
 #ifdef WOLFSSL_USER_SETTINGS
     #include "user_settings.h"
 #endif
@@ -216,6 +218,19 @@
     #endif
     #include <nx_api.h>
 #endif
+
+#if defined(WOLFSSL_ESPIDF)
+    #define FREERTOS
+    #define WOLFSSL_LWIP
+    #define NO_WRITEV
+    #define SIZEOF_LONG_LONG 8
+    #define NO_WOLFSSL_DIR
+    #define WOLFSSL_NO_CURRDIR
+
+    #define TFM_TIMING_RESISTANT
+    #define ECC_TIMING_RESISTANT
+    #define WC_RSA_BLINDING
+#endif /* WOLFSSL_ESPIDF */
 
 #if defined(HAVE_LWIP_NATIVE) /* using LwIP native TCP socket */
     #define WOLFSSL_LWIP
@@ -610,7 +625,7 @@ extern void uITRON4_free(void *p) ;
         #define XMALLOC(s, h, type)  pvPortMalloc((s))
         #define XFREE(p, h, type)    vPortFree((p))
     #endif
-    #if defined(WOLFSSL_ESPIDF)
+    #if defined(HAVE_ED25519) || defined(WOLFSSL_ESPIDF)
         #define XREALLOC(p, n, h, t) wolfSSL_Realloc((p), (n))
     #endif
     #ifndef NO_WRITEV

@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:components/wolfssl/user_settings.h
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -19,11 +20,13 @@
 /* #define NO_MAIN_DRIVER */
 >>>>>>> Added wolfssl example server
 =======
+=======
+>>>>>>> To be clean up:examples/protocols/tls_client/main/include/user_settings.h
 
 >>>>>>> Added SNTP to sync time.
 #define BENCH_EMBEDDED
-#define NO_WRITEV
 #define USE_CERT_BUFFERS_2048
+<<<<<<< HEAD:components/wolfssl/user_settings.h
 #define SIZEOF_LONG_LONG 8
 <<<<<<< HEAD
 #define NO_WOLFSSL_DIR 
@@ -34,6 +37,8 @@
 #define NO_WOLFSSL_DIR
 #define WOLFSSL_NO_CURRDIR
 >>>>>>> Using FREERTOS and LWIP definition
+=======
+>>>>>>> To be clean up:examples/protocols/tls_client/main/include/user_settings.h
 
 /* TLS 1.3                                 */
 #define WOLFSSL_TLS13
@@ -70,6 +75,7 @@
 /* #define XTIME time */
 >>>>>>> Added SNTP to sync time.
 
+<<<<<<< HEAD:components/wolfssl/user_settings.h
 #define TFM_TIMING_RESISTANT
 #define ECC_TIMING_RESISTANT
 #define WC_RSA_BLINDING
@@ -87,6 +93,8 @@
 #define NO_FILESYSTEM
 >>>>>>> add wolfSSL files
 =======
+=======
+>>>>>>> To be clean up:examples/protocols/tls_client/main/include/user_settings.h
 #define SINGLE_THREADED /* or define RTOS  option */
 <<<<<<< HEAD
 /* #define WOLFSSL_CMSIS_RTOS */
@@ -98,7 +106,6 @@
 #define NO_FILESYSTEM
 >>>>>>> Added wc_GenerateSeed() for ESP32
 
-/* #define NO_DH */
 #define HAVE_AESGCM
 #define WOLFSSL_SHA512
 #define HAVE_ECC
